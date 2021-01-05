@@ -1,12 +1,12 @@
 function [cntR_total,sumR_total,cntP_total,sumP_total,scores,bestF] = prScores(supIm,iid,gt,nthresh,method, cntR_total,sumR_total,cntP_total,sumP_total,scores,iter,scorePath)
-
+method = 'fsds';
 [thresh,cntR,sumR,cntP,sumP] = PR_core(supIm,gt,nthresh);
 R = cntR  ./ (sumR  + (sumR ==0));
 P  = cntP  ./ (sumP  + (sumP ==0));
 [bestT,bestR,bestP,bestF] = maxF(thresh,R,P);
 scores(iter,:) = [iid bestT bestR bestP bestF];
-
 fname = fullfile(scorePath,[method '_scores.txt']);
+
 fid = fopen(fname,'w');
 if fid==-1,error('Could not open file %s for writing.',fname);end
 fprintf(fid,'%10d %10g %10g %10g %10g\n',scores(1:iter,:)');

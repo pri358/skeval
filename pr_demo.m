@@ -1,8 +1,8 @@
-score_path = 'score-sklarge';
+score_path = 'C:/Users/Priyanshi Jain/Desktop/IIITD/7th sem/IP/Datasets/SK-SMALL/';
 linewidth = 3;
 
 fname = fullfile(score_path, 'Levinshtein_sk1491_pr.txt');
-Levinshtein = dlmread(fname);
+Levinshtein = readmatrix(fname);
 
 fname = fullfile(score_path, 'lee_sk1491_pr.txt');
 Lee = dlmread(fname); % thresh, r, p, f
