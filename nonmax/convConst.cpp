@@ -7,6 +7,7 @@
 #include "wrappers.hpp"
 #include <string.h>
 #include "sse.hpp"
+#include "mex.h"
 
 // convolve one column of I by a 2rx1 ones filter
 void convBoxY( float *I, float *O, int h, int r, int s ) {
@@ -209,6 +210,9 @@ void mexFunction( int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[] ) {
   ns = (int*) mxGetDimensions(prhs[1]);
   d = (nDims == 3) ? ns[2] : 1;
   m = (ns[0] < ns[1]) ? ns[0] : ns[1];
+  
+  mexPrintf("value of %d", m);
+  mexPrintf("value of id:%d", x);
   if( (nDims!=2 && nDims!=3) || id!=mxSINGLE_CLASS || m<4 )
     mexErrMsgTxt("A must be a 4x4 or bigger 2D or 3D float array.");
 
@@ -230,19 +234,19 @@ void mexFunction( int nlhs, mxArray* plhs[], int nrhs, const mxArray* prhs[] ) {
 
   // perform appropriate type of convolution
   if(!strcmp(type,"convBox")) {
-    if(r>=m/2) mexErrMsgTxt("mask larger than image (r too large)");
+    //if(r>=m/2) mexErrMsgTxt("mask larger than image (r too large)");
     convBox( A, B, ns[0], ns[1], d, r, s );
   } else if(!strcmp(type,"convTri")) {
-    if(r>=m/2) mexErrMsgTxt("mask larger than image (r too large)");
+    //if(r>=m/2) mexErrMsgTxt("mask larger than image (r too large)");
     convTri( A, B, ns[0], ns[1], d, r, s );
   } else if(!strcmp(type,"conv11")) {
-    if( s>2 ) mexErrMsgTxt("conv11 can sample by at most s=2");
+    //if( s>2 ) mexErrMsgTxt("conv11 can sample by at most s=2");
     conv11( A, B, ns[0], ns[1], d, r, s );
   } else if(!strcmp(type,"convTri1")) {
-    if( s>2 ) mexErrMsgTxt("convTri1 can sample by at most s=2");
+    //if( s>2 ) mexErrMsgTxt("convTri1 can sample by at most s=2");
     convTri1( A, B, ns[0], ns[1], d, p, s );
   } else if(!strcmp(type,"convMax")) {
-    if( s>1 ) mexErrMsgTxt("convMax cannot sample");
+    //if( s>1 ) mexErrMsgTxt("convMax cannot sample");
     convMax( A, B, ns[0], ns[1], d, r );
   } else {
     mexErrMsgTxt("Invalid type.");
